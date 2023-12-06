@@ -10,12 +10,23 @@ export default function Quiz() {
 
 
   
-  function handleSelectAnswer (selectedAnswer)  {
-    setUserAnswers((prevAnswers) => {
-      return [...prevAnswers, selectedAnswer];
-    });
+  // function handleSelectAnswer (selectedAnswer)  {
+  //   setUserAnswers((prevAnswers) => {
+  //     return [...prevAnswers, selectedAnswer];
+  //   });
     
-  }
+  // }
+
+
+  const handleSelectAnswer = useCallback(function handleSelectAnswer (selectedAnswer) {
+      setUserAnswers((prevAnswers) => {
+          return [...prevAnswers, selectedAnswer];
+        });
+    },[])
+
+  
+  const handleSkipQuestion = useCallback(() =>  handleSelectAnswer(null),[handleSelectAnswer])
+    
 
   if(activeQuestionIndex == QUESTIONS.length){
     return(
@@ -28,19 +39,14 @@ export default function Quiz() {
         
         const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers]
         shuffledAnswers.sort(() => Math.random() - 0.5);
-  // const handleSelectAnswer = useCallback((selectedAnswer) => {
-  //     setUserAnswers((prevAnswers) => {
-  //         return [...prevAnswers, selectedAnswer];
-  //       });
-  //   },[n])
-
-  
-  // const handlesSkipQuestion = useCallback(() => handleSelectAnswer(null),[handleSelectAnswer])
-    
   return (
     <div id="quiz">
       <div id="question">
-      <QuestionTimer timeout={5000} onTimeout={ () =>  handleSelectAnswer(null)}/>
+      <QuestionTimer
+      key={activeQuestionIndex}  //Adding key here to reset the component
+      timeout={5000} 
+      onTimeout={handleSkipQuestion}
+      />
         <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
         <ul id="answers">
           {shuffledAnswers.map((x) => {

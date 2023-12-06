@@ -4,14 +4,24 @@ export default function QuestionTimer ({timeout , onTimeout}) {
     const [progressTime,setProgressTime ] = useState(timeout)
     useEffect(() => {
         console.log('SEtting timeout');
-        setTimeout(onTimeout,timeout)
+        const timer =  setTimeout(onTimeout,timeout)
 
-    },[onTimeout,timeout])
+        return () => {
+            clearTimeout(timer)
+        }
+
+    },[timeout,onTimeout])
 
     useEffect(() => {
-        setInterval(() => {
+        console.log('SEtting interval');
+
+        const interval = setInterval(() => {
             setProgressTime(state => state - 100 )
         },100)
+
+        return () => {
+            clearInterval(interval)
+        }
 
     },[])
     
