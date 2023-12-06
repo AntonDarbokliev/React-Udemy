@@ -4,6 +4,7 @@ import QUESTIONS from "../questions.js";
 import quizIsCompleteImg from '../assets/quiz-complete.png'
 import QuestionTimer from "./QuestionTimer.jsx";
 import Answers from "./Answers.jsx";
+import Question from "./Question.jsx";
 
 export default function Quiz() {
   const [answerState,setAnswerState ] = useState('')
@@ -50,18 +51,15 @@ export default function Quiz() {
   return (
     <div id="quiz">
       <div id="question">
-      <QuestionTimer
-      key={activeQuestionIndex}  //Adding key here to reset the component
-      timeout={10000} 
-      onTimeout={handleSkipQuestion}
-      />
-        <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
-        <Answers 
-        answers={QUESTIONS[activeQuestionIndex].answers} 
-        selectedAnswer ={userAnswers[userAnswers.length-1]}
-        answerState={answerState}
+        <Question
+        key={activeQuestionIndex}
+        questionText={QUESTIONS[activeQuestionIndex].text}
+        answers={QUESTIONS[activeQuestionIndex].answers}
         onSelect={handleSelectAnswer}
-        />
+        selectedAnswer={userAnswers[userAnswers.length - 1]}
+        onSkip={handleSkipQuestion}
+        answerState={answerState}
+        />      
       </div>
     </div>
   );
