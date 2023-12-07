@@ -24,7 +24,7 @@ export default function Quiz() {
 
   if (activeQuestionIndex == QUESTIONS.length) {
     return (
-      <Summary/>
+      <Summary userAnswers={userAnswers}/>
     );
   }
 
