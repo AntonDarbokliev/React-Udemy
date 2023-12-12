@@ -8,11 +8,15 @@ import CartItem from "./CartItem.jsx";
 
 export default function Cart() {
   const { items,addItem, removeItem } = useContext(CartContext);
-  const {progress,hideCart} = useContext(UserProgressContext)
+  const {progress,hideCart,showCheckout} = useContext(UserProgressContext)
   
 
   function handleModalClose() {
     hideCart()
+  }
+
+  function handleGoToCheckout(){
+    showCheckout()
   }
 
   const cartTotal = items.reduce((acc, item) => {
@@ -35,7 +39,7 @@ export default function Cart() {
       <p className="cart-total">${cartTotal}</p>
       <p className="cart-actions">
         <Button textOnly onClick={handleModalClose}>Close</Button>
-        <Button onClick={handleModalClose}>Go to Checkout</Button>
+        <Button onClick={handleGoToCheckout}>Go to Checkout</Button>
       </p>
       
     </Modal>
