@@ -3,10 +3,11 @@ import { CartContext } from "../store/CartContext.jsx";
 import Modal from "./UI/Modal.jsx";
 import Button from "./UI/Button.jsx";
 import { UserProgressContext } from "../store/UserProgressContext.jsx";
+import CartItem from "./CartItem.jsx";
 
 
 export default function Cart() {
-  const { items } = useContext(CartContext);
+  const { items,addItem, removeItem } = useContext(CartContext);
   const {progress,hideCart} = useContext(UserProgressContext)
   
 
@@ -19,13 +20,14 @@ export default function Cart() {
   }, 0);
 
   return (
-    <Modal className={'cart'} open={progress === 'cart' ? true : false}>
+    <Modal className='cart' open={progress === 'cart' ? true : false}>
       <h2>Your Cart</h2>
       <ul>
         {items.map((item) => {
           return (
             <li key={item.id}>
-              {item.name} - {item.quantity}
+              {<CartItem item={item} itemIncrease={() => addItem(item)} itemDecrease={() => removeItem(item.id)}/>}
+              {/* {item.name} - {item.quantity} */}
             </li>
           );
         })}
