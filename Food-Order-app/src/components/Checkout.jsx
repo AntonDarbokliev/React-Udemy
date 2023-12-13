@@ -14,17 +14,37 @@ export default function Checkout() {
         hideCheckout()
     }
 
+    function handleSubmitCheckout(e){
+      e.preventDefault()
+
+      const formData = new FormData(e.target)
+      const userData = Object.fromEntries(formData.entries())
+
+      fetch('http://localhost:3000/orders',{
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({
+          order:{
+            items: items,
+            customer : userData
+          }
+        })
+      })
+    }
+
   const totalAmount = items.reduce((acc, item) => {
     return acc + item.price * item.quantity;
   }, 0);
 
   return (
     <Modal open={progress === 'checkout'}>
-      <form>
+      <form onSubmit={handleSubmitCheckout}>
         <h2>Checkout</h2>
         <p>Total Amount: {totalAmount}</p>
 
-        <Input label='Full Name' type='text' id='full-name'/>
+        <Input label='Full Name' type='text' id='name'/>
         <Input label='E-Mail Address' type='email' id='email'/>
         <Input label='Street' type='text' id='street'/>
 
@@ -35,7 +55,7 @@ export default function Checkout() {
 
         <p className="modal-actions">
             <Button type='button' textOnly onClick={handleCloseCheckout}>Close</Button>
-            <Button onClick={handleCloseCheckout} >Submit Order</Button>
+            <Button >Submit Order</Button>
         </p>
 
 
