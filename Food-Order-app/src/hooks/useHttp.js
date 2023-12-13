@@ -14,21 +14,23 @@ async function sendHttpRequest(url,config) {
 
 export default function useHttp(url,initialValue,config) {
   const [data, setData] = useState(initialValue);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState();
   const [loading, setLoading] = useState(false);
 
-  const sendRequest = useCallback(async function sendRequest() {
+  const sendRequest = useCallback(async function sendRequest(data) {
     setLoading(true);
-
     try {
-      const resData = await sendHttpRequest(url,config);
+      const resData = await sendHttpRequest(url,{...config,body:JSON.stringify(data)});
       setData(resData);
     } catch (error) {
-        console.log(error);
       setErrors(error.message || "Something went wrong");
     }
     setLoading(false);
   },[url,config])
+
+  function clearData() {
+    setData(initialValue)
+  }
 
   useEffect(() => {
     if(config &&  (config.method === 'GET' || !config.method) || !config){
@@ -40,6 +42,7 @@ export default function useHttp(url,initialValue,config) {
     data,
     loading,
     errors,
-    sendRequest
+    sendRequest,
+    clearData
   };
 }
