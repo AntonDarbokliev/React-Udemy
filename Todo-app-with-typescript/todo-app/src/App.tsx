@@ -18,11 +18,17 @@ function App() {
         return [...state,todo]
       })
   }
+
+  function removeTodo(id : string) {    
+      const filteredTodos = todos.filter(x => x.id !== id)
+      
+      setTodos(filteredTodos)
+  }
   
   return (
     <>
-    <NewTodo addTodo={addTodo}/>      
-    <Todos items={todos}/>     
+    <NewTodo addTodo={addTodo} />      
+    <Todos items={todos} removeTodo={removeTodo}/>     
     </>
   )
 }
