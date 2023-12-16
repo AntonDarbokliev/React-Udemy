@@ -1,3 +1,5 @@
+import classes from './NewTodo.module.css'
+
 import { useRef } from "react"
 
 const NewTodo: React.FC<{addTodo : (text : string) => void}> = (props) => {
@@ -10,7 +12,7 @@ const NewTodo: React.FC<{addTodo : (text : string) => void}> = (props) => {
     } 
 
     return (
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} className={classes.form}>
             <label htmlFor="todoText">Todo text</label>
             <input type="text" id="todoText" ref={todoRef} />
             <button>Submit</button>

@@ -1,8 +1,10 @@
+import classes from './TodoItem.module.css'
+
 import Todo from "../models/Todo"
 
 const TodoItem : React.FC <{item : Todo}> = (props) => {
     return(
-        <li key={props.item.id}>{props.item.text}</li>
+        <li className={classes.item} key={props.item.id}>{props.item.text}</li>
     )
 }
 
